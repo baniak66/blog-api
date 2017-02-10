@@ -7,7 +7,7 @@ module Api
 
     def show
       @article = Article.find(params[:id])
-      render json: @article, include: ['comments']
+      render json: @article
     end
   end
 end
