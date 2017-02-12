@@ -21,8 +21,8 @@ RSpec.describe "Article API", :type => :request do
   it 'cretes an article' do
     expect(Article.all.length).to eq(0)
     post "/articles/",
-      :article => { :title => "new title",
-                    :content => "new content" }
+      :params => {:article => { :title => "new title",
+                    :content => "new content" }}
     expect(response).to have_http_status(201)
     expect(Article.all.length).to eq(1)
     expect(json['title']).to eq("new title")
@@ -41,9 +41,9 @@ RSpec.describe "Article API", :type => :request do
 
   it 'updates an article' do
     article = FactoryGirl.create(:article)
-    put "/articles/#{article.id}", :id => article.id,
+    put "/articles/#{article.id}", :params => {:id => article.id,
       :article => { :title => "title updated",
-                    :content => "content updated" }
+                    :content => "content updated" }}
     expect(response).to have_http_status(201)
     expect(json['title']).to eq("title updated")
     expect(json['content']).to eq("content updated")
