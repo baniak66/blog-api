@@ -13,7 +13,8 @@ module Api
     end
 
     def create
-      @article = Article.create(article_params)
+      @user = User.find_by_email(params[:email])
+      @article = @user.articles.create(article_params)
       if @article.save
         render json: @article, status: 201
       else
@@ -39,7 +40,7 @@ module Api
   private
 
     def article_params
-      params.require(:article).permit(:title, :content)
+      params.require(:article).permit(:title, :content, :email)
     end
 
     def set_article

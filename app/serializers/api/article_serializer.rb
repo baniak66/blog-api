@@ -1,13 +1,14 @@
 class Api::ArticleSerializer < ActiveModel::Serializer
   has_many :comments
-  attributes :id, :title, :content, :created_at
-              :count_comments, :comments, :author
+  belongs_to :user
+  attributes :id, :title, :content, :added,
+              :count_comments, :comments, :user
 
   def count_comments
     object.comments.size
   end
 
-  def author
-    object.user.email
+  def added
+    object.created_at.strftime('%v')
   end
 end
