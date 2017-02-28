@@ -1,6 +1,7 @@
 module Api
   class ArticlesController < ApplicationController
     before_action :set_article, only: [:show, :update, :destroy]
+    before_action :check_author, only: [:update, :destroy]
     before_action :authenticate_user, except: [:index, :show]
 
     def index
@@ -45,6 +46,12 @@ module Api
 
     def set_article
       @article = Article.find(params[:id])
+    end
+
+    def check_author
+      unless @article.user.email === current_user.email
+        render json: { errors: 'only author can perform this action' }, status: 422
+      end
     end
   end
 end
