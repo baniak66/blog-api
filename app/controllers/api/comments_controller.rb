@@ -1,6 +1,7 @@
 module Api
   class CommentsController < ApplicationController
     before_action :set_article
+    before_action :authenticate_user
 
     def index
       @article = Article.find(params[:article_id])
@@ -9,7 +10,9 @@ module Api
     end
 
     def create
-      @comment = @article.comments.create(comment_params)
+      @user = User.find_by_email(params[:email]).id
+      @comment = @article.comments.new(comment_params)
+      @comment.user_id = @user
       if @comment.save
         render json: @comment, status: 201
       else
