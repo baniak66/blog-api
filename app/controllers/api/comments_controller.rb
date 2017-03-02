@@ -3,12 +3,6 @@ module Api
     before_action :set_article
     before_action :authenticate_user
 
-    def index
-      @article = Article.find(params[:article_id])
-      @comments = @article.comments
-      render json: @comments
-    end
-
     def create
       @user = User.find_by_email(params[:email]).id
       @comment = @article.comments.new(comment_params)
